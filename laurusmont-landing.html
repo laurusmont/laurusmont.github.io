@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAURUS MONT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #004225;
+    --copper: #B87333;
+    --white: #FFFFFF;
+    --text-mid: rgba(255,255,255,0.68);
+    --text-dim: rgba(255,255,255,0.38);
+    --copper-dim: rgba(184,115,51,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #004225;
+    color: var(--white);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+    /* Single continuous background — no breaks */
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3.5rem;
+    height: 54px;
+    background: rgba(0,46,25,0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(184,115,51,0.14);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+  }
+  nav.visible { opacity: 1; pointer-events: all; }
+
+  .nav-logo {
+    font-size: 0.72rem;
+    letter-spacing: 0.38em;
+    color: var(--copper);
+    text-decoration: none;
+    font-weight: 300;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.8rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    color: var(--text-mid);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 300;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--copper); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .compass-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    opacity: 0.55;
+    transition: opacity 0.3s;
+  }
+  .compass-btn:hover { opacity: 1; }
+  .compass-btn svg { width: 17px; height: 17px; }
+
+  .lang-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    color: var(--copper);
+    text-transform: uppercase;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Subtle side vignette only — no bottom darkening to avoid visible seam */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 100% at 0% 50%, rgba(0,20,10,0.25) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 100% at 100% 50%, rgba(0,20,10,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Faint concentric rings — tree ring echo */
+  .rings {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .rings span {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(184,115,51,0.07);
+  }
+  .rings span:nth-child(1) { width: 320px; height: 320px; }
+  .rings span:nth-child(2) { width: 480px; height: 480px; border-color: rgba(184,115,51,0.05); }
+  .rings span:nth-child(3) { width: 640px; height: 640px; border-color: rgba(184,115,51,0.03); }
+  .rings span:nth-child(4) { width: 820px; height: 820px; border-color: rgba(184,115,51,0.02); }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .monogram {
+    font-size: 5rem;
+    font-weight: 300;
+    color: var(--copper);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: riseIn 1.6s cubic-bezier(0.25,0.46,0.45,0.94) 0.3s forwards;
+    margin-bottom: 1.6rem;
+  }
+
+  .thin-rule {
+    width: 1px;
+    height: 44px;
+    background: linear-gradient(to bottom, transparent, var(--copper) 50%, transparent);
+    opacity: 0;
+    animation: fadeIn 1s ease 1.4s forwards;
+    margin-bottom: 1.6rem;
+  }
+
+  .wordmark {
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.55em;
+    color: var(--white);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.9s forwards;
+    margin-bottom: 2rem;
+  }
+
+  .tagline-en {
+    font-size: 1.08rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--copper);
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.5s forwards;
+    margin-bottom: 0.65rem;
+  }
+
+  .tagline-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 200;
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    color: var(--text-dim);
+    opacity: 0;
+    animation: fadeIn 1s ease 3.1s forwards;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 2.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 3.8s forwards;
+    z-index: 2;
+  }
+  .scroll-cue-text {
+    font-size: 0.56rem;
+    letter-spacing: 0.38em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .scroll-cue-line {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(to bottom, var(--copper), transparent);
+    animation: pulseDown 2.2s ease-in-out 4.5s infinite;
+  }
+
+  /* ── CONTINUOUS CONTENT STREAM ── */
+  /* No section borders. Content floats on the same green canvas. */
+
+  .stream {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  /* Each reveal block */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Copper hairline — very subtle, floats between sections */
+  .hairline {
+    width: 48px;
+    height: 1px;
+    background: var(--copper);
+    opacity: 0.35;
+    margin: 0 auto;
+  }
+
+  .spacer-sm { height: 6rem; }
+  .spacer-md { height: 9rem; }
+  .spacer-lg { height: 12rem; }
+
+  /* ── STATEMENT ── */
+  .statement {
+    text-align: center;
+  }
+  .eyebrow {
+    display: block;
+    font-size: 0.58rem;
+    letter-spacing: 0.42em;
+    color: var(--copper);
+    text-transform: uppercase;
+    margin-bottom: 2.4rem;
+    opacity: 0.8;
+  }
+  .statement-body {
+    font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--white);
+    letter-spacing: 0.01em;
+  }
+
+  /* ── PILLARS ── */
+  .pillars-header {
+    text-align: center;
+  }
+  .pillars-title {
+    font-size: 0.58rem;
+    letter-spacing: 0.42em;
+    color: var(--copper);
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+    margin-top: 5rem;
+  }
+
+  .pillar { text-align: left; }
+
+  .pillar-i {
+    font-size: 0.54rem;
+    letter-spacing: 0.3em;
+    color: var(--copper);
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 1.1rem;
+  }
+  .pillar-name {
+    font-size: 1.45rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .pillar-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 200;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    color: var(--copper);
+    opacity: 0.65;
+    display: block;
+    margin-bottom: 1.4rem;
+  }
+  /* Thin copper rule under pillar name */
+  .pillar-rule {
+    width: 24px;
+    height: 1px;
+    background: var(--copper);
+    opacity: 0.4;
+    margin-bottom: 1.4rem;
+  }
+  .pillar-text {
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--text-mid);
+    letter-spacing: 0.015em;
+  }
+
+  /* ── QUOTE ── */
+  .quote-block {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .quote-open {
+    font-size: 5rem;
+    font-weight: 300;
+    color: var(--copper);
+    opacity: 0.18;
+    line-height: 0.4;
+    display: block;
+    margin-bottom: 2.5rem;
+  }
+  .quote-body {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+  .quote-source {
+    display: block;
+    margin-top: 2rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.4em;
+    color: var(--copper);
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+
+  /* ── ENTRY POINTS ── */
+  .entries {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .entry {
+    flex: 1;
+    max-width: 280px;
+    padding: 3rem 2.4rem;
+    text-decoration: none;
+    border: 1px solid rgba(184,115,51,0.14);
+    transition: border-color 0.4s ease, background 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .entry:hover {
+    border-color: rgba(184,115,51,0.4);
+    background: rgba(184,115,51,0.03);
+  }
+
+  .entry-arrow {
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+    color: var(--copper);
+    opacity: 0.65;
+    text-transform: uppercase;
+  }
+  .entry-name {
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    color: var(--white);
+  }
+  .entry-sub {
+    font-size: 0.72rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    padding: 4rem 3.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .site-footer.visible { opacity: 1; transform: translateY(0); }
+
+  .footer-ig {
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    color: var(--copper);
+    opacity: 0.6;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+  }
+  .footer-ig:hover { opacity: 1; }
+
+  .footer-lm {
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    color: var(--copper);
+    opacity: 0.3;
+  }
+
+  .footer-copy {
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── KEYFRAMES ── */
+  @keyframes riseIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  @keyframes pulseDown {
+    0%, 100% { opacity: 0.25; transform: scaleY(1); transform-origin: top; }
+    50% { opacity: 0.7; transform: scaleY(1.08); transform-origin: top; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 720px) {
+    nav { padding: 0 1.6rem; }
+    .nav-links { gap: 1.6rem; }
+    .stream { padding: 0 1.6rem; }
+    .pillars-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+    .entries { flex-direction: column; align-items: center; }
+    .entry { max-width: 100%; }
+    .site-footer { flex-direction: column; gap: 1.2rem; text-align: center; }
+    .monogram { font-size: 3.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">LM</a>
+  <ul class="nav-links">
+    <li><a href="#">Main</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Philosophy</a></li>
+    <li><a href="#">Gallery</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="compass-btn" aria-label="Language">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#B87333" stroke-width="1.3" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="9.5"/>
+        <line x1="12" y1="2.5" x2="12" y2="6"/>
+        <line x1="12" y1="18" x2="12" y2="21.5"/>
+        <line x1="2.5" y1="12" x2="6" y2="12"/>
+        <line x1="18" y1="12" x2="21.5" y2="12"/>
+        <polygon points="12,4.5 13,10.5 12,12 11,10.5" fill="#B87333" stroke="none"/>
+        <circle cx="12" cy="12" r="1.4" fill="#B87333" stroke="none"/>
+      </svg>
+    </button>
+    <span class="lang-label">EN</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="rings">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="hero-content">
+    <div class="monogram">LM</div>
+    <div class="thin-rule"></div>
+    <div class="wordmark">Laurus&nbsp;&nbsp;Mont</div>
+    <div class="tagline-en">Eternal Quiet Ascendance.</div>
+    <div class="tagline-jp">静謐なる恒久的昇華</div>
+  </div>
+  <div class="scroll-cue">
+    <span class="scroll-cue-text">Scroll</span>
+    <div class="scroll-cue-line"></div>
+  </div>
+</section>
+
+<!-- CONTINUOUS STREAM -->
+<div class="stream">
+
+  <div class="spacer-lg"></div>
+
+  <!-- Statement -->
+  <div class="reveal statement">
+    <span class="eyebrow">The Premise</span>
+    <p class="statement-body">
+      Some things are built for a moment.<br>
+      Some are built for what remains<br>after moments pass.
+    </p>
+  </div>
+
+  <div class="spacer-lg"></div>
+  <div class="reveal hairline"></div>
+  <div class="spacer-lg"></div>
+
+  <!-- Pillars -->
+  <div class="reveal pillars-header">
+    <span class="pillars-title">Three Pillars</span>
+  </div>
+
+  <div class="reveal" style="transition-delay:0.1s">
+    <div class="pillars-grid">
+      <div class="pillar">
+        <span class="pillar-i">I</span>
+        <span class="pillar-name">Timelessness</span>
+        <span class="pillar-jp">恒久性</span>
+        <div class="pillar-rule"></div>
+        <p class="pillar-text">
+          What endures does so for reason. Not because permanence is comfortable, but because it is the only honest measure. Markets cycle. Tastes shift. Seasons change. What remains after all of that is worth attending to.
+        </p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-i">II</span>
+        <span class="pillar-name">Patience</span>
+        <span class="pillar-jp">忍耐</span>
+        <div class="pillar-rule"></div>
+        <p class="pillar-text">
+          The tree rings do not count themselves. They accumulate in silence. Patience is not passive — it is the active choice, made daily, to build toward something rather than react to everything.
+        </p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-i">III</span>
+        <span class="pillar-name">Refinement</span>
+        <span class="pillar-jp">洗練</span>
+        <div class="pillar-rule"></div>
+        <p class="pillar-text">
+          Not the pursuit of a finished version, but the commitment to a continuous one. The flowers change. The practice does not. We are never complete. We only ascend.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer-lg"></div>
+  <div class="reveal hairline"></div>
+  <div class="spacer-lg"></div>
+
+  <!-- Quote -->
+  <div class="reveal quote-block">
+    <span class="quote-open">"</span>
+    <p class="quote-body">
+      Patience compounds.<br>
+      This is not a consolation.<br>
+      It is the thesis.
+    </p>
+    <span class="quote-source">LAURUS MONT · Philosophy</span>
+  </div>
+
+  <div class="spacer-lg"></div>
+  <div class="reveal hairline"></div>
+  <div class="spacer-lg"></div>
+
+  <!-- Entry points -->
+  <div class="reveal entries">
+    <a href="#" class="entry">
+      <span class="entry-arrow">→ Gallery</span>
+      <span class="entry-name">Gallery</span>
+      <span class="entry-sub">A visual archive.<br>Each image, a considered moment.</span>
+    </a>
+    <a href="#" class="entry">
+      <span class="entry-arrow">→ Philosophy</span>
+      <span class="entry-name">Philosophy</span>
+      <span class="entry-sub">What we believe.<br>Why we build slowly.</span>
+    </a>
+    <a href="#" class="entry">
+      <span class="entry-arrow">→ Essays</span>
+      <span class="entry-name">Essays</span>
+      <span class="entry-sub">Coming.<br>When they are ready.</span>
+    </a>
+  </div>
+
+  <div class="spacer-lg"></div>
+
+</div><!-- /stream -->
+
+<!-- FOOTER -->
+<footer class="site-footer" id="footer">
+  <a href="https://instagram.com/laurusmont" class="footer-ig">@laurusmont</a>
+  <span class="footer-lm">LM</span>
+  <span class="footer-copy">© Laurus Mont 2026</span>
+</footer>
+
+<script>
+  // Nav on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('visible', window.scrollY > window.innerHeight * 0.72);
+  }, { passive: true });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const footer = document.getElementById('footer');
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  reveals.forEach(el => io.observe(el));
+  io.observe(footer);
+</script>
+
+</body>
+</html>
