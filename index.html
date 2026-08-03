@@ -10,7 +10,7 @@
 <style>
   :root {
     --green: #004225;
-    --copper: #B87333;
+    --copper: #C8863E;
     --white: #FFFFFF;
     --text-mid: rgba(255,255,255,0.68);
     --text-dim: rgba(255,255,255,0.38);
@@ -41,7 +41,7 @@
     background: rgba(0,46,25,0.88);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(184,115,51,0.14);
+    border-bottom: 1px solid rgba(200,134,62,0.35);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.7s ease;
@@ -49,7 +49,7 @@
   nav.visible { opacity: 1; pointer-events: all; }
 
   .nav-logo {
-    font-size: 0.72rem;
+    font-size: 0.9rem;
     letter-spacing: 0.38em;
     color: var(--copper);
     text-decoration: none;
@@ -63,7 +63,7 @@
     list-style: none;
   }
   .nav-links a {
-    font-size: 0.68rem;
+    font-size: 1.05rem;
     letter-spacing: 0.28em;
     color: var(--text-mid);
     text-decoration: none;
@@ -92,7 +92,7 @@
   .compass-btn svg { width: 17px; height: 17px; }
 
   .lang-label {
-    font-size: 0.65rem;
+    font-size: 0.82rem;
     letter-spacing: 0.22em;
     color: var(--copper);
     text-transform: uppercase;
@@ -131,12 +131,12 @@
   .rings span {
     position: absolute;
     border-radius: 50%;
-    border: 1px solid rgba(184,115,51,0.07);
+    border: 1px solid rgba(200,134,62,0.18);
   }
   .rings span:nth-child(1) { width: 320px; height: 320px; }
-  .rings span:nth-child(2) { width: 480px; height: 480px; border-color: rgba(184,115,51,0.05); }
-  .rings span:nth-child(3) { width: 640px; height: 640px; border-color: rgba(184,115,51,0.03); }
-  .rings span:nth-child(4) { width: 820px; height: 820px; border-color: rgba(184,115,51,0.02); }
+  .rings span:nth-child(2) { width: 480px; height: 480px; border-color: rgba(200,134,62,0.13); }
+  .rings span:nth-child(3) { width: 640px; height: 640px; border-color: rgba(200,134,62,0.09); }
+  .rings span:nth-child(4) { width: 820px; height: 820px; border-color: rgba(200,134,62,0.06); }
 
   .hero-content {
     position: relative;
@@ -148,7 +148,7 @@
   }
 
   .monogram {
-    font-size: 5rem;
+    font-size: 8.0rem;
     font-weight: 300;
     color: var(--copper);
     letter-spacing: 0.06em;
@@ -156,44 +156,44 @@
     opacity: 0;
     transform: translateY(14px);
     animation: riseIn 1.6s cubic-bezier(0.25,0.46,0.45,0.94) 0.3s forwards;
-    margin-bottom: 1.6rem;
+    margin-bottom: 2rem;
   }
 
   .thin-rule {
     width: 1px;
-    height: 44px;
+    height: 56px;
     background: linear-gradient(to bottom, transparent, var(--copper) 50%, transparent);
     opacity: 0;
     animation: fadeIn 1s ease 1.4s forwards;
-    margin-bottom: 1.6rem;
+    margin-bottom: 2rem;
   }
 
   .wordmark {
-    font-size: 0.72rem;
+    font-size: 1.3rem;
     font-weight: 300;
-    letter-spacing: 0.55em;
+    letter-spacing: 0.65em;
     color: var(--white);
     text-transform: uppercase;
     opacity: 0;
     animation: fadeIn 1s ease 1.9s forwards;
-    margin-bottom: 2rem;
+    margin-bottom: 2.4rem;
   }
 
   .tagline-en {
-    font-size: 1.08rem;
+    font-size: 2.0rem;
     font-weight: 300;
     font-style: italic;
     color: var(--copper);
     letter-spacing: 0.04em;
     opacity: 0;
     animation: fadeIn 1s ease 2.5s forwards;
-    margin-bottom: 0.65rem;
+    margin-bottom: 0.9rem;
   }
 
   .tagline-jp {
     font-family: 'Noto Serif JP', serif;
     font-weight: 200;
-    font-size: 0.68rem;
+    font-size: 1.1rem;
     letter-spacing: 0.28em;
     color: var(--text-dim);
     opacity: 0;
@@ -214,7 +214,7 @@
     z-index: 2;
   }
   .scroll-cue-text {
-    font-size: 0.56rem;
+    font-size: 0.72rem;
     letter-spacing: 0.38em;
     color: var(--text-dim);
     text-transform: uppercase;
@@ -230,7 +230,7 @@
   /* No section borders. Content floats on the same green canvas. */
 
   .stream {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 3rem;
   }
@@ -251,7 +251,7 @@
     width: 48px;
     height: 1px;
     background: var(--copper);
-    opacity: 0.35;
+    opacity: 0.7;
     margin: 0 auto;
   }
 
@@ -265,7 +265,7 @@
   }
   .eyebrow {
     display: block;
-    font-size: 0.58rem;
+    font-size: 0.99rem;
     letter-spacing: 0.42em;
     color: var(--copper);
     text-transform: uppercase;
@@ -273,7 +273,7 @@
     opacity: 0.8;
   }
   .statement-body {
-    font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+    font-size: clamp(1.65rem, 2.62vw, 2.55rem);
     font-weight: 300;
     font-style: italic;
     line-height: 1.6;
@@ -286,7 +286,7 @@
     text-align: center;
   }
   .pillars-title {
-    font-size: 0.58rem;
+    font-size: 0.92rem;
     letter-spacing: 0.42em;
     color: var(--copper);
     text-transform: uppercase;
@@ -303,15 +303,15 @@
   .pillar { text-align: left; }
 
   .pillar-i {
-    font-size: 0.54rem;
+    font-size: 0.81rem;
     letter-spacing: 0.3em;
     color: var(--copper);
-    opacity: 0.5;
+    opacity: 0.9;
     display: block;
     margin-bottom: 1.1rem;
   }
   .pillar-name {
-    font-size: 1.45rem;
+    font-size: 1.8rem;
     font-weight: 300;
     letter-spacing: 0.1em;
     color: var(--white);
@@ -321,10 +321,10 @@
   .pillar-jp {
     font-family: 'Noto Serif JP', serif;
     font-weight: 200;
-    font-size: 0.62rem;
+    font-size: 0.92rem;
     letter-spacing: 0.22em;
     color: var(--copper);
-    opacity: 0.65;
+    opacity: 1;
     display: block;
     margin-bottom: 1.4rem;
   }
@@ -350,7 +350,7 @@
     padding: 2rem 0;
   }
   .quote-open {
-    font-size: 5rem;
+    font-size: 6.0rem;
     font-weight: 300;
     color: var(--copper);
     opacity: 0.18;
@@ -359,7 +359,7 @@
     margin-bottom: 2.5rem;
   }
   .quote-body {
-    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    font-size: clamp(1.35rem, 2.25vw, 1.95rem);
     font-weight: 300;
     font-style: italic;
     line-height: 1.75;
@@ -369,10 +369,10 @@
   .quote-source {
     display: block;
     margin-top: 2rem;
-    font-size: 0.58rem;
+    font-size: 0.84rem;
     letter-spacing: 0.4em;
     color: var(--copper);
-    opacity: 0.6;
+    opacity: 1;
     text-transform: uppercase;
   }
 
@@ -388,32 +388,32 @@
     max-width: 280px;
     padding: 3rem 2.4rem;
     text-decoration: none;
-    border: 1px solid rgba(184,115,51,0.14);
+    border: 1px solid rgba(200,134,62,0.4);
     transition: border-color 0.4s ease, background 0.4s ease;
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
   }
   .entry:hover {
-    border-color: rgba(184,115,51,0.4);
+    border-color: rgba(200,134,62,0.8);
     background: rgba(184,115,51,0.03);
   }
 
   .entry-arrow {
-    font-size: 0.58rem;
+    font-size: 0.87rem;
     letter-spacing: 0.28em;
     color: var(--copper);
-    opacity: 0.65;
+    opacity: 1;
     text-transform: uppercase;
   }
   .entry-name {
-    font-size: 1.2rem;
+    font-size: 1.42rem;
     font-weight: 300;
     letter-spacing: 0.14em;
     color: var(--white);
   }
   .entry-sub {
-    font-size: 0.72rem;
+    font-size: 0.79rem;
     font-weight: 300;
     line-height: 1.7;
     color: var(--text-dim);
@@ -433,10 +433,10 @@
   .site-footer.visible { opacity: 1; transform: translateY(0); }
 
   .footer-ig {
-    font-size: 0.62rem;
+    font-size: 0.92rem;
     letter-spacing: 0.28em;
     color: var(--copper);
-    opacity: 0.6;
+    opacity: 1;
     text-decoration: none;
     text-transform: uppercase;
     transition: opacity 0.3s;
@@ -444,15 +444,15 @@
   .footer-ig:hover { opacity: 1; }
 
   .footer-lm {
-    font-size: 0.85rem;
+    font-size: 1.24rem;
     font-weight: 300;
     letter-spacing: 0.35em;
     color: var(--copper);
-    opacity: 0.3;
+    opacity: 0.7;
   }
 
   .footer-copy {
-    font-size: 0.58rem;
+    font-size: 0.87rem;
     letter-spacing: 0.2em;
     color: var(--text-dim);
     text-transform: uppercase;
@@ -479,7 +479,7 @@
     .entries { flex-direction: column; align-items: center; }
     .entry { max-width: 100%; }
     .site-footer { flex-direction: column; gap: 1.2rem; text-align: center; }
-    .monogram { font-size: 3.5rem; }
+    .monogram { font-size: 2.62rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
